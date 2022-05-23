@@ -7,20 +7,20 @@ const port = process.env.PORT || 8080;
 const hash = createHash('sha256')
 
 
-var blockchain = [{
+blockchain = [{
     'data': {
         'name': 'Joel Strand',
         'age': 13,
         'grade': 11,
         'time': 12,
+        'proof': 100, // This does not effect the hash yet. Fix
     },
-    'proof': 100,
-    'hash': hash.update('data' + 'proof').copy().digest('hex')
+    'hash': hash.update('data').copy().digest('hex')
 }]
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/block', (req, res) => { return res.json(blockchain); });
+app.get('/api/blockchain', (req, res) => { return res.json(blockchain); });
 
 app.get('/api/block/:id', (req, res) => {
 
