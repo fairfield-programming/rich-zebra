@@ -1,23 +1,17 @@
+// Libraries 
 const express = require('express')
 const path = require('path')
 const { createHash } = require('node:crypto')
-
 const app = express()
 const port = process.env.PORT || 8080;
 const hash = createHash('sha256')
 
+// Blockchain Initialization
+var Blockchain = require('./blockchain.js')
+let blockchain = new Blockchain();
 
-blockchain = [{
-    'data': {
-        'name': 'Joel Strand',
-        'age': 13,
-        'grade': 11,
-        'time': 12,
-        'proof': 100, // This does not effect the hash yet. Fix
-    },
-    'hash': hash.update('data').copy().digest('hex')
-}]
 
+// App Initialization
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/blockchain', (req, res) => { return res.json(blockchain); });
@@ -31,5 +25,7 @@ app.get('/api/block/:id', (req, res) => {
 });
 
 app.get('/api/block/:id/delete', (req, res) => { res.json(blockchain.splice(req.params.id, 1)[0]) })
+
+// app.get('/api/mine')
 
 app.listen(port, () => { console.log('Listening on port ' + port) })
