@@ -1,11 +1,161 @@
 body {
     padding: 0px;
     margin: 0px;
+    font-family: sans-serif;
+    font-weight: 100;
 }
 
 main {
-    margin: 0px auto;
-    max-width: 800px;
+    position: fixed;
+    left: 0px;
+    right: 600px;
+    top: 0px;
+    bottom: 0px;
+    padding: 50px;
+}
+
+nav {
+    position: fixed;
+    right: 0px;
+    width: 600px;
+    top: 0px;
+    bottom: 0px;
+    box-shadow: 0px 0px 5px inset #efefef;
     background: #fff;
+    padding: 10px;
+}
+
+nav article {
+    position: relative;
+    box-shadow: 0px 0px 5px #ddd;
+    border-radius: 15px;
+    margin: 10px;
     padding: 25px;
+    display: block;
+    width: calc(100% - 70px);
+}
+
+nav article .buttons {
+    position: absolute;
+    top: 0px;
+    height: 40px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+nav article .buttons button {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+nav article .buttons button:hover {
+    cursor: pointer;
+    background: #eee;
+}
+
+nav article h2 {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+nav article h3 {
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+nav article p {
+    overflow: hidden;
+    overflow-x: scroll;
+    width: 100%;
+    white-space: normal;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.ads {
+    position: fixed;
+    left: 25px;
+    bottom: 25px;
+}
+
+.ad {
+    margin: 5px;
+    width: 400px;
+    height: 40px;
+    border-radius: 15px;
+    display: flex;
+    align-content: center;
+    justify-items: center;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    padding: 5px;
+    gap: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.ad .hidden {
+    display: none;
+}
+
+.ad:hover .hidden {
+    display: inline;
+}
+
+.ad img {
+    width: 40px;
+    height: 40px;
+    border-radius: 35%;
+}
+
+.ad p {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 0.5;
+}
+
+fieldset {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+fieldset input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+fieldset label {
+    display: block;
+    font-weight: 900;
+    font-size: 16px;
+    margin: 0px;
+    margin-top: 20px;
+}
+
+fieldset button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 0px;
+    background: linear-gradient(50deg, #e66465 0%, #9198e5 100%);
+    color: #fff;
 }

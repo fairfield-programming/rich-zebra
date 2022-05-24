@@ -2,18 +2,43 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💰🦓 RichZebra</title>
+    <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
     <main>
         <h1>💰🦓 RichZebra</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia amet, itaque laboriosam quasi a aut corporis sapiente, quaerat quis ducimus libero mollitia reprehenderit vero minima reiciendis est, assumenda consectetur delectus?</p>
+        <p>
+            A program that demonstrates the functionality of blockchain technology.
+        </p>
+        <br /><br /><br />
+        <fieldset>
+            <legend>Add a Block</legend>
+            <label for="title">Block Title</label>
+            <input type="text" id="title" />
+            <label for="title">Block Description</label>
+            <input type="text" id="description" />
+            <button onclick="addBlockFromUI()">Add Block</button>
+        </fieldset>
     </main>
+    <nav id="parent"></nav>
+    <div class="ads">
+        <a class="ad" href="https://github.com/william-mcgonagle">
+            <img src="https://github.com/william-mcgonagle.png" alt="" />
+            <p>William McGonagle</p>
+            <p class="hidden">(CEO, FPA)</p>
+        </a>
+        <a class="ad" href="https://github.com/Joel-Strand">
+            <img src="https://github.com/Joel-Strand.png" alt="" />
+            <p>Joel Strand</p>
+            <p class="hidden">(CTO, FPA)</p>
+        </a>
+    </div>
+    <script src="/script.js"></script>
 </body>
 
 </html>
