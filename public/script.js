@@ -19,7 +19,18 @@ function addBlockFromUI() {
 
 function addBlock(title, description) {
 
-    fetch(`/api/block/add?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`).then(data => data.json()).then((data) => {
+    let jsonBody = JSON.stringify({
+        title,
+        description
+    });
+
+    fetch(`/api/block/add`, {
+        method: 'POST',
+        body: jsonBody,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(data => data.json()).then((data) => {
 
         console.log(data);
 
@@ -35,6 +46,18 @@ function createBlockUI(data, parent) {
     const buttons = document.createElement('div')
     const button = document.createElement('button')
 
+    button.onclick = () => {
+
+        fetch('/api/block/' + data.id + '/delete').then(res => res.json()).then((data) => {
+
+            console.log(data);
+
+            window.location.href = "/";
+
+        })
+
+    }
+
     const title = document.createElement('h2');
 
     const dataHeader = document.createElement('h3');
@@ -42,11 +65,14 @@ function createBlockUI(data, parent) {
 
     const description = document.createElement('p');
     const hashUI = document.createElement('p');
+    const prevUI = document.createElement('p');
 
     dataHeader.innerHTML = "Block Data:"
     hashHeader.innerHTML = "Hash Data:"
 
-    hashUI.innerHTML = data.hash;
+    hashUI.innerHTML = "Block_Hash: " + data.hash;
+    prevUI.innerHTML = "Previous_Hash: " + data.prev;
+
     description.innerHTML = data.data.description || "some lameo didnt give this a description";
     title.innerHTML = data.data.title || "untitled block";
     buttons.className = "buttons";
@@ -58,6 +84,7 @@ function createBlockUI(data, parent) {
 
     container.append(description);
     container.append(hashUI);
+    container.append(prevUI);
 
     parent.append(container);
 

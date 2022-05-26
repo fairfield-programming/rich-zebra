@@ -1,3 +1,4 @@
+const { get } = require('express/lib/response');
 const { createHash } = require('node:crypto');
 const { url } = require('url');
 const hash = createHash('sha256')
@@ -5,17 +6,23 @@ var Url = require('url-parse')
 
 class Blockchain {
 
+    // Helpers
+    getRandomArbitrary(min, max) {
+        return (Math.random() * (max - min) + min).toFixed(5)
+    }
+
     constructor() {
         this.chain = []
         this.transactions = []
-        this.createBlock(1, 0)
-
+        this.createBlock(this.getRandomArbitrary(0, 1000), null)
     }
 
     // Getters
     getChain() { return this.chain }
+    getChainJSON() { return JSON.stringify(this.chain, null, 4) }
     getNodes() { return this.nodes }
     getPreviousBlock() { return this.chain.slice(-1) }
+
 
     createBlock(proof, previous_hash) {
         const block = {
@@ -34,20 +41,20 @@ class Blockchain {
         let checkProof = false
 
         while (checkProof == false) {
-            let hashOperation = hash.update(JSON.stringify(previous_proof * 2 - previous_proof * 2))
+            let hashOperation = hash.update(JSON.stringify((newProof ** 2) + (previous_proof * 2)))
                 .copy()
                 .digest('hex')
-            if (hash_operation.slice(0, 4) === '0000') {
+            if (hashOperation.slice(0, 4) == '0000') {
                 checkProof = true
+                return newProof
             } else {
-                newProof += 1
+                newProof = newProof + 1
             }
-            return newProof
         }
     }
 
     hash(block) {
-        encodedBlock = JSON.stringify(block, Object.keys(obj).sort())
+        const encodedBlock = JSON.stringify(block)
         return hash.update(encodedBlock)
             .copy()
             .digest('hex')
@@ -72,7 +79,7 @@ class Blockchain {
         return true
     }
 
-    addTransactions(sender, receiver, amount) {
+    addTransaction(sender, receiver, amount) {
         this.transactions.push({
             sender,
             receiver,

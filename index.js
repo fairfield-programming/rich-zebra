@@ -1,53 +1,37 @@
 const express = require('express')
-const path = require('path')
-const { createHash } = require('node:crypto')
-
 const app = express()
+const path = require('path')
 const port = process.env.PORT || 8080;
-const hash = createHash('sha256')
 
-let blockchain = [];
+// Blockchain Initialization
+const Blockchain = require('./blockchain.js')
+let blockchain = new Blockchain()
 
-function hashFunc(data, prevHash) {
+function createBlock(req) {
 
-    let hashData = "";
-
-    while (!hashData.endsWith("0000")) {
-
-        hashData = hash.update(data.toString() + prevHash.toString()).copy().digest('hex');
-
+    const previousBlock = blockchain.getPreviousBlock(req.params.id);
+    const previousHash = blockchain.hash(previousBlock);
+    const previousProof = previousBlock['proof'] // why is this not working?
+    const proof = blockchain.proofOfWork(previousProof);
+    console.log(proof)
+    blockchain.addTransaction('NA', 'THE BLOCKCHAIN', blockchain.getRandomArbitrary(0, 10))
+    const block = blockchain.createBlock(proof, previousHash)
+    const response = {
+        message: 'Block mined',
+        index: block['index'],
+        timestamp: block['timestamp'],
+        proof: block['proof'],
+        previousHash: block['previousHash'],
+        transactions: block['transactions']
     }
-
-    return hashData;
-
+    return response
 }
 
-function pushBlock(block) {
+app.get('/api/blockchain', (req, res) => {
 
-    let _block = {
-        data: block || {},
-        hash: hashFunc(JSON.stringify(block), blockchain.slice(-1).hash || "") || ""
-    };
+    res.set("Content-Type", "text/plain");
 
-    blockchain.push(_block);
-
-    return _block;
-
-}
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/api/blockchain', (req, res) => { return res.json(blockchain); });
-
-app.get('/api/block/add', (req, res) => {
-
-    res.json(
-        pushBlock({
-            title: req.query.title,
-            description: req.query.description
-        })
-    );
-
+    res.send(JSON.stringify(blockchain.getChain(), null, 4));
 });
 
 app.get('/api/block/:id', (req, res) => {
@@ -57,8 +41,12 @@ app.get('/api/block/:id', (req, res) => {
 
     res.json(blockchain[req.params.id]);
 
-});
+})
 
-app.get('/api/block/:id/delete', (req, res) => { res.json(blockchain.splice(req.params.id, 1)[0]) })
+app.get('/api/mine_block', (req, res) => {
+    res.set("Content-Type", "text/plain");
+    const block = createBlock(req);
+    return res.send(JSON.stringify(block, null, 4));
+})
 
 app.listen(port, () => { console.log('Listening on port ' + port) })
